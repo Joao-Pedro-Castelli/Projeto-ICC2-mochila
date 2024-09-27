@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "item.h"
 #include "forca.h"
+#include "guloso.h"
 
 void linhaUmPegar(FILE *fileptr, int *pesoMax, int *numItens);
 void arrayItemColocar(FILE *fileptr, ITEM **itemarr, int numItens);
@@ -21,6 +23,9 @@ int main(int argc, char *argv[]){
 	linhaUmPegar(fileptr, &pesoMax, &numItens);
 	ITEM *itemarr[numItens];
 	arrayItemColocar(fileptr, itemarr, numItens);
+	int bitMask[numItens / 32 + (numItens % 32 != 0)];
+	
+	
 	return 0;
 
 }
