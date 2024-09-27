@@ -1,29 +1,42 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "item.h"
+#include <math.h>
+#include "guloso.h"
 
 
-int guloso(iTEM* v, int n, int pesoMax)
+void guloso(iTEM* v, int n, int pesoMax,int tamanho, int *bitMask)
 {
-    float media[n];
-    int aux = 0;
+    float razao[n];
+    int aux;
     int pesoMochila = 0;
+    int peso = 0;
 
     for(int i = 0;i<n;i++){
-        media[i] = (float) getValor(v[i])/getPeso(v[i]);
+        razao[i] = (float) getValor(v[i])/getPeso(v[i]);
     }
 
     
+    int posicao;
+    int op;
     while(peso <= pesoMax){
         for(int i = 0;i<n;i++){
-            if(media[aux]<media[i]){
+            if(razao[aux]<razao[i]){
                 aux =i;
             }
 
         }
-        media[aux] = 0;
+        razao[aux] = 0;
         peso += getPeso(v[aux]);
+
+        posicao = aux/32;
+        op = (int) pow(2,aux%32);
+
+        bitMask[posicao] = bitMask[posicao]|op;
+
+       
+
     }
+
 
 }
