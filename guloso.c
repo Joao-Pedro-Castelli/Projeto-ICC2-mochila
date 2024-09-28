@@ -7,19 +7,20 @@
 
 void guloso(ITEM **v, int n, int pesoMax, int *bitMask)
 {
-    float razao[n];
-    int aux;
+    float *razao = malloc(sizeof(float)*n);
+    
+    int aux = 0;
     int pesoMochila = 0;
     int peso = 0;
 
     for(int i = 0;i<n;i++){
-        razao[i] = (float) getValor(v[i])/getPeso(v[i]);
+        razao[i] = ((float) getValor(v[i]))/getPeso(v[i]);
     }
     printf("razao feita\n");
     
     int posicao;
     int op;
-    while(peso <= pesoMax){
+    while(peso < pesoMax){
         for(int i = 0;i<n;i++){
             if(razao[aux]<razao[i]){
                 aux = i;
@@ -37,6 +38,8 @@ void guloso(ITEM **v, int n, int pesoMax, int *bitMask)
        
 
     }
+
+    free(razao);
 
 
 }
