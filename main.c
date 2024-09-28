@@ -7,6 +7,7 @@
 
 void linhaUmPegar(FILE *fileptr, int *pesoMax, int *numItens);
 void arrayItemColocar(FILE *fileptr, ITEM **itemarr, int numItens);
+void itensPrintar(ITEM **itemnarr, int numItens, int *bitMask);
 
 int main(int argc, char *argv[]){
 	if(argc != 2){
@@ -23,9 +24,11 @@ int main(int argc, char *argv[]){
 	linhaUmPegar(fileptr, &pesoMax, &numItens);
 	ITEM *itemarr[numItens];
 	arrayItemColocar(fileptr, itemarr, numItens);
+	printf("array feito\n");
 	int bitMask[numItens / 32 + (numItens % 32 != 0)];
-	
-	
+	guloso(itemarr, numItens, pesoMax, bitMask);
+	printf("guloso feito\n");
+	itensPrintar(itemarr, numItens, bitMask);
 	return 0;
 
 }
@@ -64,3 +67,10 @@ void arrayItemColocar(FILE *fileptr, ITEM **itemarr, int numItens){
 	return;
 }
 
+void itensPrintar(ITEM **itemarr, int numItens, int *bitMask){
+	for(int i = 0; i < numItens; i++){
+		if((bitMask[i/32] & ((int) pow(2, i))) == pow(2,i)){
+			printf("item %d: peso->%d | valor->%d\n", i, getPeso(itemarr[i]), getValor(itemarr[i]));
+		}
+	}
+}

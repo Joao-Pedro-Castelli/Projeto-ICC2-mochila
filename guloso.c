@@ -5,7 +5,7 @@
 #include "guloso.h"
 
 
-void guloso(iTEM* v, int n, int pesoMax,int tamanho, int *bitMask)
+void guloso(ITEM **v, int n, int pesoMax, int *bitMask)
 {
     float razao[n];
     int aux;
@@ -15,14 +15,14 @@ void guloso(iTEM* v, int n, int pesoMax,int tamanho, int *bitMask)
     for(int i = 0;i<n;i++){
         razao[i] = (float) getValor(v[i])/getPeso(v[i]);
     }
-
+    printf("razao feita\n");
     
     int posicao;
     int op;
     while(peso <= pesoMax){
         for(int i = 0;i<n;i++){
             if(razao[aux]<razao[i]){
-                aux =i;
+                aux = i;
             }
 
         }
