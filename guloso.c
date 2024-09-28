@@ -10,7 +10,6 @@ void guloso(ITEM **v, int n, int pesoMax, int *bitMask)
     float *razao = malloc(sizeof(float)*n);
     
     int aux = 0;
-    int pesoMochila = 0;
     int peso = 0;
 
     for(int i = 0;i<n;i++){

@@ -1,9 +1,10 @@
-#include <stdlib.h>
-#include "item.h"
+#ifndef FORCA_H
+    #define FORCA_H
+    #include <stdlib.h>
+    #include "item.h"
 
-unsigned long long int forcaBruta(ITEM **itemarr){
-}
+    void forcaBruta(ITEM **v,int tamVetor, int *bitMask,int tamBitMask,int camada);
 
-
+#endif
 
 
