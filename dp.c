@@ -29,16 +29,26 @@ int calculoSequencia(ITEM **v, int sequencia,int *memoria){
         peso += getPeso(memoria[sequencia]);
         return peso;
     }
+
+
     
 
-    while(aux%2){
+    while(aux/2){
         aux=aux/2;
         i++;
 
     }
+    if(sequencia == pow(2,i)){
+        if(memoria[sequencia]!=0){
+            memoria[sequencia] =getPeso(v[i+1]);
+        }
+        
+        peso+=getPeso(v[i+1]);
+        return peso;
+    }
     aux = sequencia;
     sequencia = sequencia -pow(2,i);
-    peso+= getPeso(v[pow(2,i)]);
+    peso+= getPeso(v[(int)pow(2,i)]);
 
     peso+= calculoSequencia(v,sequencia,memoria);
 
