@@ -5,9 +5,9 @@
 #include "item.h"
 #include "forca.h"
 
-int* forcaBruta(ITEM **v,int tamVetor, int *bitMask,int tamBitMask,int camada){
+void forcaBruta(ITEM **v,int tamVetor, int *bitMask,int tamBitMask,int camada){
 
-    if(camada == tamVetor+1){
+  /*  if(camada == tamVetor+1){
         
     }
 
@@ -24,7 +24,7 @@ int* forcaBruta(ITEM **v,int tamVetor, int *bitMask,int tamBitMask,int camada){
 
     bitMask[camada/32] = bitMask[camada/32]|op;
 
-    int *aux2 = forcaBruta(v,tamVetor,bitMask,tamBitMask,camada+1);
+    int *aux2 = forcaBruta(v,tamVetor,bitMask,tamBitMask,camada+1);*/
     
     
     
