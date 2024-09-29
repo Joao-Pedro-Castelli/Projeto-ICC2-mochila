@@ -7,7 +7,9 @@
 
 /*A ideia do programação dinâmica é guaradarmos certos resultados. Para isso podemos guardar os resultados 
 que são a sequência de potências de 2. Por exemplo: 4 representa a sequencia 100. ou seja pegar apenas 
-o 3 elemento, bem como 16 seria a sequência 10000 e pegaria apenas o 5 elemento.*/
+o 3 elemento, bem como 16 seria a sequência 10000 e pegaria apenas o 5 elemento.
+*/
+
 
 /*No caso do 23 ele não é uma potência de 2 mas podemos escrevê-lo como sendo a soma de potencias de 2:
         23 = 16+7 = 16+4+3 = 16+4+2+1
@@ -19,15 +21,16 @@ o 3 elemento, bem como 16 seria a sequência 10000 e pegaria apenas o 5 elemento
         A minha ideia é guardar os resultados no vetor memória para podermos acessá-los quando necessário.
         
  */
-int calculoSequencia(ITEM **v, int sequencia,int *memoria){
+bool calculoSequencia(ITEM **v, int sequencia,int *memoriaPeso,int pesoMax,int *memoriaValor){
 
     int aux = sequencia;
     int i =0;
     int peso =0;
 
-    if (memoria[sequencia]!=0){
-        peso += getPeso(memoria[sequencia]);
-        return peso;
+    if (memoriaPeso[sequencia]!=0){
+        peso += getPeso(memoriaPeso[sequencia]);
+        
+        return true;
     }
 
 
@@ -39,20 +42,18 @@ int calculoSequencia(ITEM **v, int sequencia,int *memoria){
 
     }
     if(sequencia == pow(2,i)){
-        if(memoria[sequencia]!=0){
-            memoria[sequencia] =getPeso(v[i+1]);
-        }
+        memoriaPeso[sequencia] =getPeso(v[i+1]);
+        peso+= getPeso(v[i+1]);
         
-        peso+=getPeso(v[i+1]);
-        return peso;
     }
+
     aux = sequencia;
-    sequencia = sequencia -pow(2,i);
-    peso+= getPeso(v[(int)pow(2,i)]);
+    aux = aux -pow(2,i);
+    peso+= getPeso(v[i+1]);
 
-    peso+= calculoSequencia(v,sequencia,memoria);
+    peso+= calculoSequencia(v,aux,memoriaPeso);
 
-    memoria[aux] = peso;
+    memoriaPeso[sequencia] = peso;
 
     return peso;
 
