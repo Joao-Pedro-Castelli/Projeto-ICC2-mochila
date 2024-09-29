@@ -26,7 +26,16 @@ int main(int argc, char *argv[]){
 	arrayItemColocar(fileptr, itemarr, numItens);
 	printf("array feito\n");
 	int bitMask[numItens / 32 + (numItens % 32 != 0)];
+	for(int i = 0;i<=numItens/32;i++){
+		bitMask[i] = 0;
+	}
+
+	printf("Peso Máximo: %d\n",pesoMax);
 	guloso(itemarr, numItens, pesoMax, bitMask);
+
+	for(int i = 0;i<=numItens/32;i++){
+		printf("%x\n",bitMask[i]);
+	}
 	printf("guloso feito\n");
 	itensPrintar(itemarr, numItens, bitMask);
 	return 0;
@@ -42,10 +51,11 @@ void linhaUmPegar(FILE *fileptr, int *pesoMax, int *numItens){
 		*numItens *= 10;
 		*numItens += c - '0';
 	}
-	while((c = fgetc(fileptr)) != '\n'){
+	while((c = fgetc(fileptr)) != '\r'){
 		*pesoMax *= 10;
 		*pesoMax += c - '0';
 	}
+	fgetc(fileptr);
 	return;
 }
 
@@ -58,10 +68,11 @@ void arrayItemColocar(FILE *fileptr, ITEM **itemarr, int numItens){
 			valor *= 10;
 			valor += c - '0';
 		}
-		while((c = fgetc(fileptr)) != '\n'){
+		while((c = fgetc(fileptr)) != '\r'){
 			peso *= 10;
 			peso += c - '0';
 		}
+		fgetc(fileptr);
 		itemarr[i] = itemCriar(valor, peso);
 	}
 	return;
