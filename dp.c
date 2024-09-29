@@ -21,63 +21,30 @@ o 3 elemento, bem como 16 seria a sequência 10000 e pegaria apenas o 5 elemento
         A minha ideia é guardar os resultados no vetor memória para podermos acessá-los quando necessário.
         
  */
-bool calculoSequencia(ITEM **v, int sequencia,int *memoriaPeso,int pesoMax,int *memoriaValor){
+bool calculoSequencia(ITEM **v, int tamVetor,int *bitMask,int tamBitMask,int camada){
 
-    int aux = sequencia;
-    int i =0;
-    int peso =0;
-
-    if (memoriaPeso[sequencia]!=0){
-        peso += getPeso(memoriaPeso[sequencia]);
         
-        return true;
-    }
-
+    int op = (int)pow(2,camada%32);
 
     
 
-    while(aux/2){
-        aux=aux/2;
-        i++;
+   bitMask[camada/32] = bitMask[camada/32] & op;
 
-    }
-    if(sequencia == pow(2,i)){
-        memoriaPeso[sequencia] =getPeso(v[i+1]);
-        peso+= getPeso(v[i+1]);
-        
-    }
-
-    aux = sequencia;
-    aux = aux -pow(2,i);
-    peso+= getPeso(v[i+1]);
-
-    peso+= calculoSequencia(v,aux,memoriaPeso);
-
-    memoriaPeso[sequencia] = peso;
-
-    return peso;
+   calculoSequencia(v,tamVetor,bitMask,tamBitMask,camada+1);
 
 
+    int op = (int)pow(2,camada%32);
+
+    bitMask[camada/32] = bitMask[camada/32]|op;
+
+    calculoSequencia(v,tamVetor,bitMask,tamBitMask,camada+1);
 
 }
 
-void progDinamica(ITEM **v,int tamVetor, int * memoria, int pesoMax){
-    long long int i;
-    int peso;
-    int melhor = 0;
-    for(i=1;i<=pow(2,tamVetor);i++){
-        peso = calculoSequencia(v,i,memoria);
-
-        if(melhor<peso && peso<pesoMax){
-            melhor = peso;
-        }
-
-
-
-        
-    }
+void progDinamica(ITEM **v,int tamVetor, int * memoria, int pesoMax,int* bitMask){
     
+    calculoSequencia(v,tamVetor,bitMask,tamBitMask,0);
 
-
+    
 
 }
