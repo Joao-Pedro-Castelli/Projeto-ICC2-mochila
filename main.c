@@ -51,11 +51,12 @@ void linhaUmPegar(FILE *fileptr, int *pesoMax, int *numItens){
 		*numItens *= 10;
 		*numItens += c - '0';
 	}
-	while((c = fgetc(fileptr)) != '\r'){
+	while((c = fgetc(fileptr)) != '\r' && c != '\n'){
 		*pesoMax *= 10;
 		*pesoMax += c - '0';
 	}
-	fgetc(fileptr);
+	if(c == '\r')
+		fgetc(fileptr);
 	return;
 }
 
@@ -68,11 +69,12 @@ void arrayItemColocar(FILE *fileptr, ITEM **itemarr, int numItens){
 			valor *= 10;
 			valor += c - '0';
 		}
-		while((c = fgetc(fileptr)) != '\r'){
+		while((c = fgetc(fileptr)) != '\n' && c != '\r'){
 			peso *= 10;
 			peso += c - '0';
 		}
-		fgetc(fileptr);
+		if(c == '\r')
+			fgetc(fileptr);
 		itemarr[i] = itemCriar(valor, peso);
 	}
 	return;
