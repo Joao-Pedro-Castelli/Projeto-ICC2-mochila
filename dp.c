@@ -56,43 +56,43 @@ o 3 elemento, bem como 16 seria a sequência 10000 e pegaria apenas o 5 elemento
     
 //}
 
- int max(int a, int b){
+int max(int a, int b){
     if(a<b){
         return a;
     }
     else{
         return b;
     }
- }
+}
 
-int progDinamica(ITEM **v,int tamVetor, int **dp,int idx,int peso,int sequencia){
+int progDinamica(ITEM **v, int tamVetor, int **dp, int idx, int peso, int sequencia){
 
-//dp[i][j] = guardo o maior lucro tendo disponível até a iesima posição do meu vetor de itens tendo j como peso disponível na minha mochila 
-    if(peso<0){
+//dp[i][j] = guardo o maior lucro tendo disponível até a iesima posição do meu vetor de itens tendo j como 
+//peso disponível na minha mochila 
+    if(peso < 0){
         return -10000;
     }
 
-    if(idx==tamVetor){
+    if(idx == tamVetor){
         return 0;
 
     }
 
-    if(peso ==0){
+    if(peso == 0){
         return 0;
     }
 
-    if(dp[idx][peso]!=-1){
+    if(dp[idx][peso] != -1){
         return dp[idx][peso];
     }
 
-   int leave = progDinamica(v,tamVetor,dp,idx+1,peso,sequencia);
+   int leave = progDinamica(v, tamVetor, dp, idx+1, peso, sequencia);
 
 
-   int take = progDinamica(v,tamVetor,dp,idx+1,peso-getPeso(v[idx]),sequencia + pow(2^idx))+getValor(v[idx]);
+   int take = progDinamica(v, tamVetor, dp, idx+1, peso-getPeso(v[idx]), sequencia + pow(2^idx))+ getValor(v[idx]);
 
    dp[idx][peso] = max(leave,take);
 
     
-
 }    
                         
