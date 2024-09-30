@@ -21,15 +21,18 @@ o 3 elemento, bem como 16 seria a sequência 10000 e pegaria apenas o 5 elemento
         A minha ideia é guardar os resultados no vetor memória para podermos acessá-los quando necessário.
         
  */
-bool calculoSequencia(ITEM **v, int tamVetor,int *bitMask,int tamBitMask,int camada){
+bool calculoSequencia(ITEM **v, int tamVetor,int *bitMask,int tamBitMask,int camada,int * vetPesos, int * vetValor){
 
     if(camada == tamVetor){
 
-        int peso =0;
-        int valor = 0;
+        for(int i = 0; i < tamVetor; i++){
+		    if((bitMask[i/32] & ((int) pow(2, i%32))) == ((int) pow(2, i%32))){
+                
+		    }
+	    }
 
         
-
+        
 
     }
 
@@ -56,3 +59,4 @@ void progDinamica(ITEM **v,int tamVetor, int * memoria, int pesoMax,int* bitMask
     
 
 }    
+                        

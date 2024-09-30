@@ -12,7 +12,7 @@ void forcaBruta(ITEM **v,int tamVetor, int *bitMask,int tamBitMask,int camada,in
     int valor = 0;
 
 
-    if(camada == tamVetor+1){
+    if(camada == tamVetor){
 
         for(int i = 0; i < tamVetor; i++){
 		    if((bitMask[i/32] & ((int) pow(2, i%32))) == ((int) pow(2, i%32))){
@@ -24,12 +24,17 @@ void forcaBruta(ITEM **v,int tamVetor, int *bitMask,int tamBitMask,int camada,in
 		    }
 	    }
 
-        if(peso<pesoMax){
-            *auxValor = valor;
-
-            for(int i=0;i<tamBitMask;i++){
+        if(peso<pesoMax)
+        {
+            if(auxValor[0]<valor){
+                *auxValor = valor;
+                for(int i=0;i<tamBitMask;i++){
                 auxBitMask[i] = bitMask[i];
+                }
             }
+            
+
+            
             
         }
 
