@@ -65,7 +65,7 @@ int max(int a, int b){
     }
 }
 
-int progDinamica(ITEM **v, int tamVetor, int **dp, int idx, int peso, int sequencia){
+int progDinamica(ITEM **v, int tamVetor, int **dp, int idx, int peso,bool **resposta){
 
 //dp[i][j] = guardo o maior lucro tendo disponível até a iesima posição do meu vetor de itens tendo j como 
 //peso disponível na minha mochila 
@@ -86,12 +86,21 @@ int progDinamica(ITEM **v, int tamVetor, int **dp, int idx, int peso, int sequen
         return dp[idx][peso];
     }
 
-   int leave = progDinamica(v, tamVetor, dp, idx+1, peso, sequencia);
+   int leave = progDinamica(v, tamVetor, dp, idx+1, peso,resposta);
 
 
-   int take = progDinamica(v, tamVetor, dp, idx+1, peso-getPeso(v[idx]), sequencia + pow(2^idx))+ getValor(v[idx]);
+   int take = progDinamica(v, tamVetor, dp, idx+1, peso-getPeso(v[idx]),resposta)+ getValor(v[idx]);
 
-   dp[idx][peso] = max(leave,take);
+   if(leave<take){
+    dp[idx][peso] = take;
+    resposta[idx][peso] = 1;
+   }
+   else{
+    dp[idx][peso] = leave;
+    resposta[idx][peso] = 0;
+
+   }
+   
 
     
 }    
