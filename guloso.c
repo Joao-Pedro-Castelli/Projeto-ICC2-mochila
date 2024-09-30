@@ -5,7 +5,7 @@
 #include "guloso.h"
 
 
-void guloso(ITEM **v, int n, int pesoMax, int *bitMask)
+int guloso(ITEM **v, int n, int pesoMax, int bitMask)
 {
     float *razao = malloc(sizeof(float)*n);
     
@@ -13,10 +13,9 @@ void guloso(ITEM **v, int n, int pesoMax, int *bitMask)
     int peso = 0;
 
     for(int i = 0;i<n;i++){
-        razao[i] = ((float) getValor(v[i]))/getPeso(v[i]);
+        razao[i] = ((float) getValor(v[i])) / ((float) getPeso(v[i]));
     }
     
-    int posicao;
     int op;
     while(peso < pesoMax){
         for(int i = 0;i<n;i++){
@@ -32,15 +31,14 @@ void guloso(ITEM **v, int n, int pesoMax, int *bitMask)
             break;
         }
 
-        posicao = aux/32;
-        op = (int) pow(2,aux%32);
+        op = (int) pow(2,aux);
 
-        bitMask[posicao] = bitMask[posicao]|op;
+        bitMask = bitMask | op;
        
 
     }
 
     free(razao);
 
-    return;
+    return bitMask;
 }

@@ -6,6 +6,6 @@
     #include <math.h>
     #include "item.h"
 
-    void guloso(ITEM **v, int n, int pesoMax, int *bitMask);
+    int guloso(ITEM **v, int n, int pesoMax, int bitMask);
 
 #endif

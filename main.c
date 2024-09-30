@@ -1,13 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 #include "item.h"
 #include "forca.h"
 #include "guloso.h"
+//#include "dp.h"
 
+typedef struct cronos_{
+	clock_t inicio;
+	clock_t fim;
+	double delta;
+} CRONOS;
+
+void tempoDeltaSet(CRONOS *tempo);
 void linhaUmPegar(FILE *fileptr, int *pesoMax, int *numItens);
 void arrayItemColocar(FILE *fileptr, ITEM **itemarr, int numItens);
-void itensPrintar(ITEM **itemnarr, int numItens, int *bitMask);
+void itensPrintar(ITEM **itemnarr, int numItens, int bitMask, CRONOS *tempo);
 
 int main(int argc, char *argv[]){
 	if(argc != 2){
@@ -24,26 +33,47 @@ int main(int argc, char *argv[]){
 	linhaUmPegar(fileptr, &pesoMax, &numItens);
 	ITEM *itemarr[numItens];
 	arrayItemColocar(fileptr, itemarr, numItens);
-	int bitMask[numItens / 32 + (numItens % 32 != 0)];
-	for(int i = 0;i<=numItens/32;i++){
-		bitMask[i] = 0;
-	}
+	int bitMask = 0;
+	int auxBitMask = 0;
+	
+	CRONOS *tempoGuloso = malloc(sizeof(CRONOS));
+	tempoGuloso->inicio = clock();
+	bitMask = guloso(itemarr, numItens, pesoMax, bitMask);
+	tempoGuloso->fim = clock();
+	tempoDeltaSet(tempoGuloso);
+	printf("Guloso:\n");
+	itensPrintar(itemarr, numItens,bitMask, tempoGuloso);
+	free(tempoGuloso);
+/*
+	bitMask = 0;
+	CRONOS *tempoDP = malloc(sizeof(CRONOS));
+	tempoDP->inicio = clock();
+	progDinamica()
+	tempoDP->fim = clock();
+	tempoDeltaSet(tempoDP);
+	printf("Programacao Dinamica:\n");
+	itensPrintar(itemarr, numItens, bitMask, tempoDP);
+*/	
 
-	int auxBitMask[numItens / 32 + (numItens % 32 != 0)];
-
-	int *auxValor = malloc(sizeof(int));
-
-	 
-
-	forcaBruta(itemarr,numItens,bitMask,numItens / 32 + (numItens % 32 != 0),0,auxValor,auxBitMask,pesoMax);
-
-	itensPrintar(itemarr, numItens, auxBitMask);
-
-	free(auxValor);
+	bitMask = 0;
+	int auxValor = 0;
+	CRONOS *tempoFB = malloc(sizeof(CRONOS));
+	tempoFB->inicio = clock();
+	forcaBruta(itemarr, numItens, &bitMask, 0, &auxValor, &auxBitMask, pesoMax);
+	tempoFB->fim = clock();
+	tempoDeltaSet(tempoFB);
+	printf("Forca bruta:\n");
+	itensPrintar(itemarr, numItens, auxBitMask, tempoFB);
+	
 	return 0;
 
 }
-	
+
+void tempoDeltaSet(CRONOS *tempo){
+	tempo->delta = tempo->fim - tempo->inicio;
+	return;
+}
+
 void linhaUmPegar(FILE *fileptr, int *pesoMax, int *numItens){
 	fseek(fileptr, 0, SEEK_SET);
 	int c;
@@ -82,10 +112,11 @@ void arrayItemColocar(FILE *fileptr, ITEM **itemarr, int numItens){
 	return;
 }
 
-void itensPrintar(ITEM **itemarr, int numItens, int *bitMask){
+void itensPrintar(ITEM **itemarr, int numItens, int bitMask, CRONOS *tempo){
 	for(int i = 0; i < numItens; i++){
-		if((bitMask[i/32] & ((int) pow(2, i%32))) == ((int) pow(2, i%32))){
+		if((bitMask & ((int) pow(2, i))) == ((int) pow(2, i))){
 			printf("item %d: peso->%d | valor->%d\n", i, getPeso(itemarr[i]), getValor(itemarr[i]));
 		}
 	}
+	printf("Tempo de execucao: %lfms\n", tempo->delta);
 }
