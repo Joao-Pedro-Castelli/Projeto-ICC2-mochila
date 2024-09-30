@@ -20,7 +20,7 @@ int guloso(ITEM **v, int n, int pesoMax, int bitMask)
     while(peso < pesoMax){
         for(int i = 0;i<n;i++){
             if(razao[aux]<razao[i]){
-                aux = i;
+                aux = i; //encontro o melhor item de acordo com valor/peso
             }
 
         }

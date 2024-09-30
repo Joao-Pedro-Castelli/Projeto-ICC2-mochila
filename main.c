@@ -7,19 +7,20 @@
 #include "guloso.h"
 //#include "dp.h"
 
+//struct para facilitar a cronometracao dos algoritmos
 typedef struct cronos_{
 	clock_t inicio;
 	clock_t fim;
 	double delta;
 } CRONOS;
 
-void tempoDeltaSet(CRONOS *tempo);
-void linhaUmPegar(FILE *fileptr, int *pesoMax, int *numItens);
-void arrayItemColocar(FILE *fileptr, ITEM **itemarr, int numItens);
-void itensPrintar(ITEM **itemnarr, int numItens, int bitMask, CRONOS *tempo);
+void tempoDeltaSet(CRONOS *tempo); //coloca dentro da struct a diferenca entre fim e inicio
+void linhaUmPegar(FILE *fileptr, int *pesoMax, int *numItens); //pega o numero de itens e o peso maximo na primeira linha do arquivo
+void arrayItemColocar(FILE *fileptr, ITEM **itemarr, int numItens); //coloca os pesos e valores dos itens no array da struct item
+void itensPrintar(ITEM **itemnarr, int numItens, int bitMask, CRONOS *tempo); //printa os itens que estao no bitMask
 
 int main(int argc, char *argv[]){
-	if(argc != 2){
+	if(argc != 2){ //o programa deve ser executado passando-se o nome do arquivo
 		printf("erro! coloque o nome do arquivo na chamada do exe e apenas ele\n");
 		return 0;
 	}
@@ -33,8 +34,8 @@ int main(int argc, char *argv[]){
 	linhaUmPegar(fileptr, &pesoMax, &numItens);
 	ITEM *itemarr[numItens];
 	arrayItemColocar(fileptr, itemarr, numItens);
-	int bitMask = 0;
-	int auxBitMask = 0;
+	int bitMask = 0; //inteiro em que cada bit representa se um item esta na mochila ou nao
+	int auxBitMask = 0; //sera usado no forca bruta
 	
 	CRONOS *tempoGuloso = malloc(sizeof(CRONOS));
 	tempoGuloso->inicio = clock();
@@ -44,6 +45,7 @@ int main(int argc, char *argv[]){
 	printf("Guloso:\n");
 	itensPrintar(itemarr, numItens,bitMask, tempoGuloso);
 	free(tempoGuloso);
+	tempoGuloso = NULL;
 /*
 	bitMask = 0;
 	CRONOS *tempoDP = malloc(sizeof(CRONOS));
@@ -53,6 +55,8 @@ int main(int argc, char *argv[]){
 	tempoDeltaSet(tempoDP);
 	printf("Programacao Dinamica:\n");
 	itensPrintar(itemarr, numItens, bitMask, tempoDP);
+	free(tempoDP);
+	tempoDP = NULL;
 */	
 
 	bitMask = 0;
@@ -64,7 +68,8 @@ int main(int argc, char *argv[]){
 	tempoDeltaSet(tempoFB);
 	printf("Forca bruta:\n");
 	itensPrintar(itemarr, numItens, auxBitMask, tempoFB);
-	
+	free(tempoFB);
+	tempoFB = NULL;
 	return 0;
 
 }
@@ -79,16 +84,16 @@ void linhaUmPegar(FILE *fileptr, int *pesoMax, int *numItens){
 	int c;
 	*numItens = 0;
 	*pesoMax = 0;
-	while((c = fgetc(fileptr)) != ','){
+	while((c = fgetc(fileptr)) != ','){ //cada numero eh separado por uma virgula, entao leio ate ela e computo o inteiro
 		*numItens *= 10;
 		*numItens += c - '0';
 	}
-	while((c = fgetc(fileptr)) != '\r' && c != '\n'){
+	while((c = fgetc(fileptr)) != '\r' && c != '\n'){ // no linux a linha termina apenas com \n, mas no windows tem \r tambem
 		*pesoMax *= 10;
 		*pesoMax += c - '0';
 	}
 	if(c == '\r')
-		fgetc(fileptr);
+		fgetc(fileptr); //se tem um \r devo ler o \n para a proxima iteracao comecar na proxima linha
 	return;
 }
 
@@ -114,6 +119,8 @@ void arrayItemColocar(FILE *fileptr, ITEM **itemarr, int numItens){
 
 void itensPrintar(ITEM **itemarr, int numItens, int bitMask, CRONOS *tempo){
 	for(int i = 0; i < numItens; i++){
+		//ao fazer and bitwise entre o int bitMask e uma potencia de 2, se o resultado nao eh 0, significa que
+		//o bit na posicao i era 1 -> 10101010101 & 00010000 == 00010000 se aquele item esta na mochila ou 0000000000 se nao
 		if((bitMask & ((int) pow(2, i))) == ((int) pow(2, i))){
 			printf("item %d: peso->%d | valor->%d\n", i, getPeso(itemarr[i]), getValor(itemarr[i]));
 		}
