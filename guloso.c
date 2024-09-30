@@ -24,16 +24,17 @@ int guloso(ITEM **v, int n, int pesoMax, int bitMask)
             }
 
         }
-        razao[aux] = 0;
-        peso += getPeso(v[aux]);
+        razao[aux] = 0; //nao posso repetir esse item
+        peso += getPeso(v[aux]); //vou acumulando o peso dos itens que acumulo na mochila para ver quando ultrapasso
         if(peso>pesoMax){
             peso-=getPeso(v[aux]);
             break;
         }
 
-        op = (int) pow(2,aux);
+        op = (int) pow(2,aux); //numero binario com tudo 0 e 1 na posicao aux
+			       //na interpretacao de bitMask, isso significa que o item i esta na mochila e o resto nao
 
-        bitMask = bitMask | op;
+        bitMask = bitMask | op; //agora o bit na posicao i no int bitMask eh 1, ou seja, coloquei o item i na mochila
        
 
     }

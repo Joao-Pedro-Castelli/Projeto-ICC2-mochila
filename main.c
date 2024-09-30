@@ -46,6 +46,8 @@ int main(int argc, char *argv[]){
 	itensPrintar(itemarr, numItens,bitMask, tempoGuloso);
 	free(tempoGuloso);
 	tempoGuloso = NULL;
+
+	int dp[numItens][pesoMax + 1];
 /*
 	bitMask = 0;
 	CRONOS *tempoDP = malloc(sizeof(CRONOS));
