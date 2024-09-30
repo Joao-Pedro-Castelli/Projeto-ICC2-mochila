@@ -23,17 +23,25 @@ o 3 elemento, bem como 16 seria a sequência 10000 e pegaria apenas o 5 elemento
  */
 bool calculoSequencia(ITEM **v, int tamVetor,int *bitMask,int tamBitMask,int camada){
 
+    if(camada == tamVetor){
+
+        int peso =0;
+        int valor = 0;
+
+        
+
+
+    }
+
         
     int op = (int)pow(2,camada%32);
 
-    
+    bitMask[camada/32] = bitMask[camada/32] & (((int)(pow(2, 32) - 1)) - op);
 
-   bitMask[camada/32] = bitMask[camada/32] & op;
+   
 
    calculoSequencia(v,tamVetor,bitMask,tamBitMask,camada+1);
 
-
-    int op = (int)pow(2,camada%32);
 
     bitMask[camada/32] = bitMask[camada/32]|op;
 
@@ -47,4 +55,4 @@ void progDinamica(ITEM **v,int tamVetor, int * memoria, int pesoMax,int* bitMask
 
     
 
-}
+}    

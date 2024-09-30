@@ -5,26 +5,49 @@
 #include "item.h"
 #include "forca.h"
 
-void forcaBruta(ITEM **v,int tamVetor, int *bitMask,int tamBitMask,int camada){
 
-  /*  if(camada == tamVetor+1){
+void forcaBruta(ITEM **v,int tamVetor, int *bitMask,int tamBitMask,int camada,int *auxValor, int *auxBitMask,int pesoMax){
+
+    int peso = 0;
+    int valor = 0;
+
+
+    if(camada == tamVetor+1){
+
+        for(int i = 0; i < tamVetor; i++){
+		    if((bitMask[i/32] & ((int) pow(2, i%32))) == ((int) pow(2, i%32))){
+
+                peso += getPeso(v[i]);
+                valor += getValor(v[i]);
+                
+            
+		    }
+	    }
+
+        if(peso<pesoMax){
+            *auxValor = valor;
+
+            for(int i=0;i<tamBitMask;i++){
+                auxBitMask[i] = bitMask[i];
+            }
+            
+        }
+
+        return;
         
     }
 
-    
-    forcaBruta(v,tamVetor,bitMask,tamBitMask,camada+1);
 
-    for(int i = 0; i < tamVetor; i++){
-
-			
-		
-	}
 
     int op = (int)pow(2,camada%32);
 
+    bitMask[camada/32] = bitMask[camada/32] & (~op);
+    
+    forcaBruta(v,tamVetor,bitMask,tamBitMask,camada+1,auxValor,auxBitMask,pesoMax);
+
     bitMask[camada/32] = bitMask[camada/32]|op;
 
-    int *aux2 = forcaBruta(v,tamVetor,bitMask,tamBitMask,camada+1);*/
+     forcaBruta(v,tamVetor,bitMask,tamBitMask,camada+1,auxValor,auxBitMask,pesoMax);
     
     
     

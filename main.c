@@ -29,9 +29,17 @@ int main(int argc, char *argv[]){
 		bitMask[i] = 0;
 	}
 
-	guloso(itemarr, numItens, pesoMax, bitMask);
+	int auxBitMask[numItens / 32 + (numItens % 32 != 0)];
 
-	itensPrintar(itemarr, numItens, bitMask);
+	int *auxValor = malloc(sizeof(int));
+
+	 
+
+	forcaBruta(itemarr,numItens,bitMask,numItens / 32 + (numItens % 32 != 0),0,auxValor,auxBitMask,pesoMax);
+
+	itensPrintar(itemarr, numItens, auxBitMask);
+
+	free(auxValor);
 	return 0;
 
 }
