@@ -105,7 +105,7 @@ int main(int argc, char *argv[]){
 	int n = 0;
 	while(true){
 		if((n>numItens-1) || pesoMax<0){
-			printf("n: %d  peso: %d\n", n, pesoMax);
+			//printf("n: %d  peso: %d\n", n, pesoMax);
 			break;
 		}
 		if(resposta[n][pesoMax]>0){
