@@ -69,6 +69,7 @@ int progDinamica(ITEM **v, int tamVetor, int **dp, int idx, int peso,bool **resp
 
 //dp[i][j] = guardo o maior lucro tendo disponível até a iesima posição do meu vetor de itens tendo j como 
 //peso disponível na minha mochila 
+
     if(peso < 0){
         return -10000;
     }
@@ -93,13 +94,20 @@ int progDinamica(ITEM **v, int tamVetor, int **dp, int idx, int peso,bool **resp
 
    if(leave<take){
     dp[idx][peso] = take;
-    resposta[idx][peso] = 1;
+    resposta[idx][peso] = true;
+    //printf("take win dp[%d][%d]: %d\n", idx, peso, dp[idx][peso]);
+    //printf("take win  resposta[%d][%d]: %d\n", idx, peso,  resposta[idx][peso]);
    }
    else{
     dp[idx][peso] = leave;
-    resposta[idx][peso] = 0;
+    resposta[idx][peso] = false;
+
+   // printf("leave win dp[%d][%d]: %d\n", idx, peso, dp[idx][peso]);
+    //printf("leave win  resposta[%d][%d]: %d\n", idx, peso,  resposta[idx][peso]);
 
    }
+
+   return dp[idx][peso];
    
 
     

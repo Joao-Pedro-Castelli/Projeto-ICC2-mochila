@@ -5,7 +5,7 @@
 #include "item.h"
 #include "forca.h"
 #include "guloso.h"
-//#include "dp.h"
+#include "dp.h"
 
 //struct para facilitar a cronometracao dos algoritmos
 typedef struct cronos_{
@@ -32,10 +32,13 @@ int main(int argc, char *argv[]){
 		return 0;
 	}
 	linhaUmPegar(fileptr, &pesoMax, &numItens);
+	printf("sai do linha um\n");
 	ITEM *itemarr[numItens];
 	arrayItemColocar(fileptr, itemarr, numItens);
+	printf("sai do itemcolocar\n");
 	int bitMask = 0; //inteiro em que cada bit representa se um item esta na mochila ou nao
 	int auxBitMask = 0; //sera usado no forca bruta
+	printf("peso: %d\n", pesoMax);
 	
 	CRONOS *tempoGuloso = malloc(sizeof(CRONOS));
 	tempoGuloso->inicio = clock();
@@ -47,7 +50,18 @@ int main(int argc, char *argv[]){
 	free(tempoGuloso);
 	tempoGuloso = NULL;
 
-	int dp[numItens][pesoMax + 1];
+	int **dp = malloc((numItens + 1) * sizeof(int *));
+	for (int i = 0; i <= numItens; i++) {
+    	dp[i] = malloc((pesoMax + 1) * sizeof(int));
+	}
+
+	for(int i=0;i<numItens;i++){
+		for(int j = 0;j<=pesoMax;j++){
+			dp[i][j] = -1;
+		}
+	}
+
+
 /*
 	bitMask = 0;
 	CRONOS *tempoDP = malloc(sizeof(CRONOS));
@@ -72,8 +86,43 @@ int main(int argc, char *argv[]){
 	itensPrintar(itemarr, numItens, auxBitMask, tempoFB);
 	free(tempoFB);
 	tempoFB = NULL;
-	return 0;
+	
 
+
+	bool **resposta = malloc((numItens + 1) * sizeof(bool *));
+	for (int i = 0; i <= numItens; i++) {
+    	resposta[i] = malloc((pesoMax + 1) * sizeof(bool));
+	}
+
+	for(int i=0;i<numItens;i++){
+		for(int j = 0;j<=pesoMax;j++){
+			resposta[i][j] = false;
+		}
+	}
+	
+	progDinamica(itemarr, numItens,dp,0,pesoMax,resposta);
+	
+	int n = 0;
+	while(true){
+		if((n>numItens-1) || pesoMax<0){
+			printf("n: %d  peso: %d\n", n, pesoMax);
+			break;
+		}
+		if(resposta[n][pesoMax]>0){
+			printf("item %d: peso->%d | valor->%d\n",n,getPeso(itemarr[n]),getValor(itemarr[n]));
+			//printf("final dp[%d][%d]: %d\n", n, pesoMax, dp[n][pesoMax]);
+   			//printf("final  resposta[%d][%d]: %d\n", n, pesoMax,  resposta[n][pesoMax]);
+			pesoMax-=getPeso(itemarr[n]);
+			n++;
+		}
+		else{
+			//printf("final else dp[%d][%d]: %d\n", n, pesoMax, dp[n][pesoMax]);
+   			//printf("final else  resposta[%d][%d]: %d\n", n, pesoMax,  resposta[n][pesoMax]);
+			n++;
+		}
+	}
+
+return 0;
 }
 
 void tempoDeltaSet(CRONOS *tempo){
