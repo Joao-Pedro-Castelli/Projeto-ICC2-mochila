@@ -26,7 +26,7 @@ void forcaBruta(ITEM **v, int tamVetor, int *bitMask, int camada, int *auxValor,
 		    }
 	    }
 
-        if(peso<pesoMax)
+        if(peso<=pesoMax)
         {
             if(*auxValor<valor){
                 *auxValor = valor;
