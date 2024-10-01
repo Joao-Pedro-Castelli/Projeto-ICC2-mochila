@@ -17,7 +17,11 @@ int guloso(ITEM **v, int n, int pesoMax, int bitMask)
     }
     
     int op;
+    int isupremo = 0;
     while(peso < pesoMax){
+	if(isupremo > n){
+		break;
+	}
         for(int i = 0;i<n;i++){
             if(razao[aux]<razao[i]){
                 aux = i; //encontro o melhor item de acordo com valor/peso
@@ -26,9 +30,10 @@ int guloso(ITEM **v, int n, int pesoMax, int bitMask)
         }
         razao[aux] = 0; //nao posso repetir esse item
         peso += getPeso(v[aux]); //vou acumulando o peso dos itens que acumulo na mochila para ver quando ultrapasso
+	isupremo++;
         if(peso>pesoMax){
             peso-=getPeso(v[aux]);
-            break;
+            continue;
         }
 
         op = (int) pow(2,aux); //numero binario com tudo 0 e 1 na posicao aux

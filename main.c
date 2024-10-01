@@ -126,7 +126,7 @@ return 0;
 }
 
 void tempoDeltaSet(CRONOS *tempo){
-	tempo->delta = tempo->fim - tempo->inicio;
+	tempo->delta = (tempo->fim - tempo->inicio) * 1000000 / (CLOCKS_PER_SEC);
 	return;
 }
 
@@ -176,5 +176,5 @@ void itensPrintar(ITEM **itemarr, int numItens, int bitMask, CRONOS *tempo){
 			printf("item %d: peso->%d | valor->%d\n", i, getPeso(itemarr[i]), getValor(itemarr[i]));
 		}
 	}
-	printf("Tempo de execucao: %lfms\n", tempo->delta);
+	printf("Tempo de execucao: %lfus\n", tempo->delta);
 }
