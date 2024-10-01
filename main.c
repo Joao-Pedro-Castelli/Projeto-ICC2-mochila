@@ -100,7 +100,11 @@ int main(int argc, char *argv[]){
 		}
 	}
 	
+	CRONOS *tempoPF = malloc(sizeof(tempoPF));
+	tempoPF->inicio = clock();
 	progDinamica(itemarr, numItens,dp,0,pesoMax,resposta);
+	tempoPF->fim = clock();
+	tempoPF->delta = (double) (tempoPF->fim - tempoPF->inicio) * 1000000 / CLOCKS_PER_SEC;
 	
 	int n = 0;
 	while(true){
@@ -121,6 +125,8 @@ int main(int argc, char *argv[]){
 			n++;
 		}
 	}
+	printf("Tempo de execucao: %lf\n", tempoPF->delta);
+	free(tempoPF);
 
 return 0;
 }
